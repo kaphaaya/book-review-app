@@ -1,11 +1,25 @@
 const express = require("express");
 const router = express.Router();
+const {
+  getAllUsers,
+  getUserById,
+  registerUser,
+  loginUser,
+} = require("../controllers/userController");
 
-module.exports = (sequelize) => {
-  const userController = require("../controllers/userController")(sequelize);
+// Get all users
+router.get("/", getAllUsers);
 
-  router.post("/register", userController.register);
-  router.post("/login", userController.login);
+// Get user by ID
+router.get("/:id", getUserById);
 
-  return router;
-};
+// Register new user
+router.post("/register", registerUser);
+
+// Login user
+router.post("/login", loginUser);
+
+// Alias POST / for registration (for compatibility)
+router.post("/", registerUser);
+
+module.exports = router;
